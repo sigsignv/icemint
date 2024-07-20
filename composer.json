@@ -9,8 +9,18 @@
     ],
     "autoload": {
         "psr-4": {
-            "Sigsign\\IceMint\\": "src/"
+            "Sigsign\\IceMint\\": "app/"
         }
     },
-    "require": {}
+    "config": {
+        "platform": {
+            "php": "8.1.0"
+        }
+    },
+    "scripts": {
+        "format": "php-cs-fixer fix"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.59"
+    }
 }
