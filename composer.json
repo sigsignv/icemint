@@ -1,0 +1,16 @@
+{
+    "name": "sigsign/icemint",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Sigsign",
+            "email": "sig@signote.cc"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sigsign\\IceMint\\": "src/"
+        }
+    },
+    "require": {}
+}
