@@ -9,6 +9,7 @@ use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 $finder = (new Finder())
     ->in([
         __DIR__ . '/app',
+        __DIR__ . '/public',
     ])
     ->append([
         __FILE__,
