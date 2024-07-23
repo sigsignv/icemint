@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,23 +35,23 @@ $routes->add('edit', new Route('/edit', [
 ]));
 
 $context = new RequestContext();
-$context->fromRequest($request);
 $matcher = new UrlMatcher($routes, $context);
+
+$dispatcher = new EventDispatcher();
+$dispatcher->addListener('response', function (\Sigsign\IceMint\ResponseEvent $event): void {
+    $response = $event->getResponse();
+    $headers = $response->headers;
+
+    if (!$headers->has('Content-Length') && !$headers->has('Transfer-Encoding')) {
+        $length = strlen($response->getContent());
+        $headers->set('Content-Length', sprintf("%d", $length));
+    }
+}, -255);
 
 $controllerResolver = new ControllerResolver();
 $argumentResolver = new ArgumentResolver();
 
-try {
-    $request->attributes->add($matcher->match($request->getPathInfo()));
-
-    $controller = $controllerResolver->getController($request);
-    $arguments = $argumentResolver->getArguments($request, $controller);
-
-    $response = call_user_func_array($controller, $arguments);
-} catch (ResourceNotFoundException $exception) {
-    $response = new Response('Not Found', 404);
-} catch (Exception $exception) {
-    $response = new Response('An error occurred', 500);
-}
+$framework = new \Sigsign\IceMint\Framework($dispatcher, $matcher, $controllerResolver, $argumentResolver);
+$response = $framework->handle($request);
 
 $response->send();

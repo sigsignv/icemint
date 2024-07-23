@@ -22,6 +22,7 @@
         "format": "php-cs-fixer fix"
     },
     "require": {
+        "symfony/event-dispatcher": "^6.4",
         "symfony/http-foundation": "^6.4",
         "symfony/http-kernel": "^6.4",
         "symfony/routing": "^6.4"
