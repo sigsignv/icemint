@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
@@ -12,19 +15,39 @@ use Symfony\Component\Routing\RouteCollection;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+function render_template(Request $request)
+{
+    return new JsonResponse($request->attributes->all());
+}
+
 $request = Request::createFromGlobals();
 
 $routes = new RouteCollection();
-$routes->add('view', new Route('/p/{slug}', [], ['slug' => '.*']));
-$routes->add('edit', new Route('/edit'));
+$routes->add('view', new Route('/p/{slug}', [
+    '_controller' => function (Request $request): Response {
+        return render_template($request);
+    },
+], ['slug' => '.*']));
+$routes->add('edit', new Route('/edit', [
+    '_controller' => function (Request $request): Response {
+        return render_template($request);
+    },
+]));
 
 $context = new RequestContext();
 $context->fromRequest($request);
 $matcher = new UrlMatcher($routes, $context);
 
+$controllerResolver = new ControllerResolver();
+$argumentResolver = new ArgumentResolver();
+
 try {
-    $attr = $matcher->match($request->getPathInfo());
-    $response = new Response(json_encode($attr, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE));
+    $request->attributes->add($matcher->match($request->getPathInfo()));
+
+    $controller = $controllerResolver->getController($request);
+    $arguments = $argumentResolver->getArguments($request, $controller);
+
+    $response = call_user_func_array($controller, $arguments);
 } catch (ResourceNotFoundException $exception) {
     $response = new Response('Not Found', 404);
 } catch (Exception $exception) {
