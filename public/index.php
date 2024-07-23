@@ -15,23 +15,22 @@ use Symfony\Component\Routing\RouteCollection;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-function render_template(Request $request)
+class ExampleController
 {
-    return new JsonResponse($request->attributes->all());
+    public function render(Request $request)
+    {
+        return new JsonResponse($request->attributes->all());
+    }
 }
 
 $request = Request::createFromGlobals();
 
 $routes = new RouteCollection();
 $routes->add('view', new Route('/p/{slug}', [
-    '_controller' => function (Request $request): Response {
-        return render_template($request);
-    },
+    '_controller' => 'ExampleController::render',
 ], ['slug' => '.*']));
 $routes->add('edit', new Route('/edit', [
-    '_controller' => function (Request $request): Response {
-        return render_template($request);
-    },
+    '_controller' => 'ExampleController::render',
 ]));
 
 $context = new RequestContext();
