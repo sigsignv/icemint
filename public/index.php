@@ -5,10 +5,11 @@ declare(strict_types=1);
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
@@ -20,11 +21,15 @@ class ExampleController
 {
     public function render(Request $request)
     {
-        return new JsonResponse($request->attributes->all());
+        $response = new JsonResponse($request->attributes->all());
+        $response->setTtl(10);
+
+        return $response;
     }
 }
 
 $request = Request::createFromGlobals();
+$requestStack = new RequestStack();
 
 $routes = new RouteCollection();
 $routes->add('view', new Route('/p/{slug}', [
@@ -38,20 +43,17 @@ $context = new RequestContext();
 $matcher = new UrlMatcher($routes, $context);
 
 $dispatcher = new EventDispatcher();
-$dispatcher->addListener('response', function (\Sigsign\IceMint\ResponseEvent $event): void {
-    $response = $event->getResponse();
-    $headers = $response->headers;
-
-    if (!$headers->has('Content-Length') && !$headers->has('Transfer-Encoding')) {
-        $length = strlen($response->getContent());
-        $headers->set('Content-Length', sprintf("%d", $length));
-    }
-}, -255);
+$dispatcher->addSubscriber(new HttpKernel\EventListener\RouterListener($matcher, $requestStack));
+$dispatcher->addSubscriber(new HttpKernel\EventListener\ResponseListener('UTF-8'));
 
 $controllerResolver = new ControllerResolver();
 $argumentResolver = new ArgumentResolver();
 
-$framework = new \Sigsign\IceMint\Framework($dispatcher, $matcher, $controllerResolver, $argumentResolver);
+$framework = new \Sigsign\IceMint\Framework($dispatcher, $controllerResolver, $requestStack, $argumentResolver);
+$framework = new HttpKernel\HttpCache\HttpCache(
+    $framework,
+    new HttpKernel\HttpCache\Store(__DIR__ . '/../cache'),
+);
 $response = $framework->handle($request);
 
 $response->send();
