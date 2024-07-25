@@ -32,9 +32,9 @@ $request = Request::createFromGlobals();
 $requestStack = new RequestStack();
 
 $routes = new RouteCollection();
-$routes->add('view', new Route('/p/{slug}', [
-    '_controller' => 'ExampleController::render',
-], ['slug' => '.*']));
+$routes->add('view', new Route('/p/{page}', [
+    '_controller' => 'Sigsign\IceMint\Controller\ViewController::show',
+], ['page' => '.*']));
 $routes->add('edit', new Route('/edit', [
     '_controller' => 'ExampleController::render',
 ]));
