@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,17 +16,6 @@ use Symfony\Component\Routing\RouteCollection;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-class ExampleController
-{
-    public function render(Request $request)
-    {
-        $response = new JsonResponse($request->attributes->all());
-        $response->setTtl(10);
-
-        return $response;
-    }
-}
-
 $request = Request::createFromGlobals();
 $requestStack = new RequestStack();
 
@@ -36,8 +24,11 @@ $routes->add('view', new Route('/p/{page}', [
     '_controller' => 'Sigsign\IceMint\Controller\ViewController::show',
 ], ['page' => '.*']));
 $routes->add('edit', new Route('/edit', [
-    '_controller' => 'ExampleController::render',
-]));
+    '_controller' => 'Sigsign\IceMint\Controller\ViewController::edit',
+], methods: ['GET', 'HEAD']));
+$routes->add('udpate', new Route('/edit', [
+    '_controller' => 'Sigsign\IceMint\Controller\ViewController::update',
+], methods: 'POST'));
 
 $context = new RequestContext();
 $matcher = new UrlMatcher($routes, $context);

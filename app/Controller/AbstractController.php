@@ -13,7 +13,7 @@ abstract class AbstractController
         ['title' => $title, 'content' => $content] = $params;
 
         ob_start();
-        include __DIR__ . '/../../skin/default/view.php';
+        include __DIR__ . sprintf('/../../skin/default/%s.php', $view);
         $html = ob_get_clean();
 
         return new Response($html);

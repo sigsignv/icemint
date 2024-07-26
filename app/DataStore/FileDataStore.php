@@ -33,6 +33,12 @@ final class FileDataStore implements DataStoreInterface
         return $content !== false ? $content : "Not Available";
     }
 
+    public function write(string $page, string $content): void
+    {
+        $path = $this->joinPath($page);
+        file_put_contents($path, $content);
+    }
+
     private function joinPath(string $page): string
     {
         if (mb_scrub($page, 'UTF-8') !== $page) {
