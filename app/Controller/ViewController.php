@@ -22,7 +22,7 @@ class ViewController extends AbstractController
     {
         $content = $this->datastore->read($page);
 
-        return $this->render('view', [
+        return $this->render('view.twig', [
             "title" => "{$page}",
             "content" => "{$content}",
         ]);
@@ -38,7 +38,7 @@ class ViewController extends AbstractController
             $content = '';
         }
 
-        return $this->render('edit', [
+        return $this->render('edit.twig', [
             "title" => "{$title}",
             "content" => "{$content}",
         ]);

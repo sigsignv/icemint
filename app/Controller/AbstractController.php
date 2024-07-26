@@ -10,11 +10,11 @@ abstract class AbstractController
 {
     public function render(string $view, array $params): Response
     {
-        ['title' => $title, 'content' => $content] = $params;
-
-        ob_start();
-        include __DIR__ . sprintf('/../../skin/default/%s.php', $view);
-        $html = ob_get_clean();
+        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../../skin/default/');
+        $twig = new \Twig\Environment($loader, [
+            'auto_reload' => true,
+        ]);
+        $html = $twig->render($view, $params);
 
         return new Response($html);
     }

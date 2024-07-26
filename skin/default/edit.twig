@@ -1,0 +1,11 @@
+{% extends "base.twig" %}
+
+{% block title %}Edit {{ title|e }} - IceMint{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <input type="hidden" name="title" value="{{ title|e('html_attr') }}" />
+    <textarea name="content" rows="10" cols="50">{{ content|raw }}</textarea>
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}

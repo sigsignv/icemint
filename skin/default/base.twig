@@ -3,9 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title><?= $title ?></title>
+    {% block head %}
+      <title>{{ title|e }} - IceMint</title>
+    {% endblock %}
   </head>
   <body>
-    <?= $content ?>
+    {% block content %}
+    {% endblock %}
   </body>
 </html>
