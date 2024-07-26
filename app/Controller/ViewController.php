@@ -6,6 +6,7 @@ namespace Sigsign\IceMint\Controller;
 
 use Sigsign\IceMint\DataStore\DataStoreInterface;
 use Sigsign\IceMint\DataStore\FileDataStore;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -51,6 +52,6 @@ class ViewController extends AbstractController
         $content = $data->get('content');
         $this->datastore->write($title, $content);
 
-        return $this->show($title);
+        return new RedirectResponse("/p/{$title}", 303);
     }
 }
