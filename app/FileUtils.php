@@ -26,10 +26,11 @@ final class FileUtils
         $this->baseDir = $dir;
     }
 
-    public function read(string $filename): string {
+    public function read(string $filename): string
+    {
         if (!file_exists($filename)) {
             throw new \RuntimeException(
-                "Does not exist: {$filename}"
+                "Does not exist: {$filename}",
             );
         }
         return file_get_contents($filename);
