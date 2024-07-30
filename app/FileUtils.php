@@ -35,4 +35,9 @@ final class FileUtils
         }
         return file_get_contents($filename);
     }
+
+    public function baseDir(): string
+    {
+        return $this->baseDir;
+    }
 }
