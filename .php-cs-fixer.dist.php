@@ -10,6 +10,7 @@ $finder = (new Finder())
     ->in([
         __DIR__ . '/app',
         __DIR__ . '/public',
+        __DIR__ . '/tests',
     ])
     ->append([
         __FILE__,
