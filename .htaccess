@@ -1,0 +1,8 @@
+RedirectMatch 404 \/.git
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteRule ^public/ - [L]
+  RewriteRule ^.*$ public/$0 [L]
+</IfModule>
