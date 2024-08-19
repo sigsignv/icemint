@@ -30,5 +30,7 @@ RUN chown -R root:root /usr/local/apache2 \
 
 RUN ln -s /usr/bin/php-cgi /usr/local/apache2/cgi-bin/
 
+COPY ./httpd.conf /usr/local/apache2/conf/
+
 USER ${USERNAME}
 WORKDIR /usr/local/apache2/htdocs

@@ -9,6 +9,8 @@
 		"TZ": "${localEnv:TZ:Asia/Tokyo}"
 	},
 
+	"forwardPorts": ["httpd:8080"],
+
 	"remoteUser": "vscode",
 
 	"customizations": {
