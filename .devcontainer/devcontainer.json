@@ -1,0 +1,22 @@
+{
+	"name": "app",
+
+	"dockerComposeFile": "compose.yaml",
+	"service": "dev",
+	"workspaceFolder": "/workspace",
+
+	"containerEnv": {
+		"TZ": "${localEnv:TZ:Asia/Tokyo}"
+	},
+
+	"remoteUser": "vscode",
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"EditorConfig.EditorConfig",
+				"ms-azuretools.vscode-docker"
+			]
+		}
+	}
+}
