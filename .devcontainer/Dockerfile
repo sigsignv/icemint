@@ -30,6 +30,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         nkf \
         php-cli \
         php-curl \
+        php-xml \
         publicsuffix \
         sudo \
         vim \
