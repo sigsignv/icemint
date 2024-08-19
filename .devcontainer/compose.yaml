@@ -8,3 +8,11 @@ services:
         target: /workspace
     command: sleep infinity
     user: vscode
+
+  httpd:
+    build:
+      dockerfile: Dockerfile.httpd
+    volumes:
+      - type: bind
+        source: ..
+        target: /usr/local/apache2/htdocs
