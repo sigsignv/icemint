@@ -18,7 +18,8 @@
 			"extensions": [
 				"EditorConfig.EditorConfig",
 				"ms-azuretools.vscode-docker",
-				"mrmlnc.vscode-apache"
+				"mrmlnc.vscode-apache",
+				"bmewburn.vscode-intelephense-client"
 			]
 		}
 	}
