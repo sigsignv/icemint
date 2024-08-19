@@ -19,8 +19,16 @@
 				"EditorConfig.EditorConfig",
 				"ms-azuretools.vscode-docker",
 				"mrmlnc.vscode-apache",
-				"bmewburn.vscode-intelephense-client"
-			]
+				"bmewburn.vscode-intelephense-client",
+				"junstyle.php-cs-fixer"
+			],
+			"settings": {
+				"[php]": {
+					"editor.formatOnSave": true,
+					"editor.defaultFormatter": "junstyle.php-cs-fixer"
+				},
+				"php-cs-fixer.executablePath": "/workspace/vendor/bin/php-cs-fixer"
+			}
 		}
 	}
 }
