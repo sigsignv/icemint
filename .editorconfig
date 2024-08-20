@@ -16,3 +16,11 @@ indent_size = 4
 [composer.json]
 indent_style = space
 indent_size = 4
+
+[devcontainer.json]
+indent_style = tab
+indent_size = 4
+
+[httpd.conf]
+indent_style = space
+indent_size = 4

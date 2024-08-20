@@ -1,0 +1,34 @@
+{
+	"name": "app",
+
+	"dockerComposeFile": "compose.yaml",
+	"service": "dev",
+	"workspaceFolder": "/workspace",
+
+	"containerEnv": {
+		"TZ": "${localEnv:TZ:Asia/Tokyo}"
+	},
+
+	"forwardPorts": ["httpd:8080"],
+
+	"remoteUser": "vscode",
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"EditorConfig.EditorConfig",
+				"ms-azuretools.vscode-docker",
+				"mrmlnc.vscode-apache",
+				"bmewburn.vscode-intelephense-client",
+				"junstyle.php-cs-fixer"
+			],
+			"settings": {
+				"[php]": {
+					"editor.formatOnSave": true,
+					"editor.defaultFormatter": "junstyle.php-cs-fixer"
+				},
+				"php-cs-fixer.executablePath": "/workspace/vendor/bin/php-cs-fixer"
+			}
+		}
+	}
+}
