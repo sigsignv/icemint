@@ -14,6 +14,7 @@ $finder = (new Finder())
     ])
     ->append([
         __FILE__,
+        __DIR__ . '/index.php',
     ]);
 
 return (new Config())
