@@ -34,8 +34,17 @@ $context = new RequestContext();
 $matcher = new UrlMatcher($routes, $context);
 
 $dispatcher = new EventDispatcher();
-$dispatcher->addSubscriber(new HttpKernel\EventListener\RouterListener($matcher, $requestStack));
-$dispatcher->addSubscriber(new HttpKernel\EventListener\ResponseListener('UTF-8'));
+$dispatcher->addSubscriber(
+    new HttpKernel\EventListener\RouterListener($matcher, $requestStack, debug: false),
+);
+$dispatcher->addSubscriber(
+    new HttpKernel\EventListener\ResponseListener('UTF-8'),
+);
+$dispatcher->addSubscriber(
+    new HttpKernel\EventListener\ErrorListener(
+        'Sigsign\IceMint\Controller\ErrorController::exception',
+    ),
+);
 
 $controllerResolver = new ControllerResolver();
 $argumentResolver = new ArgumentResolver();
