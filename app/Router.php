@@ -23,6 +23,11 @@ final class Router
     {
         $routes = new RouteCollection();
 
+        $routes->add('top', new Route('/', [
+            'page' => 'FrontPage',
+            '_controller' => [ ViewController::class, 'show' ],
+        ]));
+
         $routes->add('view', new Route('/p/{page}', [
             '_controller' => [ ViewController::class, 'show' ],
         ], [ 'page' => '.*' ]));
