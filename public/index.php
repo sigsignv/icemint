@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Sigsign\IceMint\Router;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -11,24 +12,14 @@ use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $request = Request::createFromGlobals();
 $requestStack = new RequestStack();
 
-$routes = new RouteCollection();
-$routes->add('view', new Route('/p/{page}', [
-    '_controller' => 'Sigsign\IceMint\Controller\ViewController::show',
-], ['page' => '.*']));
-$routes->add('edit', new Route('/edit', [
-    '_controller' => 'Sigsign\IceMint\Controller\ViewController::edit',
-], methods: ['GET', 'HEAD']));
-$routes->add('udpate', new Route('/edit', [
-    '_controller' => 'Sigsign\IceMint\Controller\ViewController::update',
-], methods: 'POST'));
+$router = new Router();
+$routes = $router->routes();
 
 $context = new RequestContext();
 $matcher = new UrlMatcher($routes, $context);
