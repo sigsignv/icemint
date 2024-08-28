@@ -19,14 +19,11 @@ $request = Request::createFromGlobals();
 $requestStack = new RequestStack();
 
 $router = new Router();
-$routes = $router->routes();
-
-$context = new RequestContext();
-$matcher = new UrlMatcher($routes, $context);
+$router->getContext()->fromRequest($request);
 
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(
-    new HttpKernel\EventListener\RouterListener($matcher, $requestStack, debug: false),
+    new HttpKernel\EventListener\RouterListener($router, $requestStack, debug: false),
 );
 $dispatcher->addSubscriber(
     new HttpKernel\EventListener\ResponseListener('UTF-8'),
