@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Sigsign\IceMint\Routing;
+
 use Sigsign\IceMint\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -19,7 +21,7 @@ final class Router implements RouterInterface
 
     public function __construct(
         private RouteCollection $routes,
-        private RequestContext $context,
+        private RequestContext $context = new RequestContext(),
     ) {}
 
     public function getRouteCollection(): RouteCollection

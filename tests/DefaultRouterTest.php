@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Sigsign\IceMint\Router;
 use Symfony\Component\HttpFoundation\Request;
 
-class RouterTest extends TestCase
+class DefaultRouterTest extends TestCase
 {
     public function testMatch(): void
     {
